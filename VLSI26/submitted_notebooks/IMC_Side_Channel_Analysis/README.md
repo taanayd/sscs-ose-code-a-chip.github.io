@@ -1,51 +1,123 @@
-# Power Side-Channel Vulnerability in Analog In-Memory Computing Crossbars
+# 🔐 Power Side-Channel Vulnerability in Analog IMC Arrays  
+### IEEE SSCS Code-a-Chip — VLSI 2026 Submission
 
-## Abstract
-
-Analog in-memory computing (IMC) crossbar arrays are emerging as energy-efficient accelerators for edge AI inference. A widely held assumption is that analog computation is inherently more side-channel resistant than digital designs, since there are no discrete bit transitions to leak information.
-
-This work challenges that assumption.
-
-Using the open-source SkyWater SKY130 130 nm foundry PDK and Ngspice 42, we demonstrate that the total supply current of a 4×4 resistive crossbar IMC array during matrix-vector multiplication is nearly perfectly correlated with the Hamming weight of the input vector (Pearson correlation coefficient ρ = 0.998, p < 10⁻¹⁷). This establishes a practical power side-channel attack capable of leaking private input data.
-
-Unlike prior work that primarily focuses on digital accelerators or simplified analytical models, this study provides the first SPICE-level, foundry-validated demonstration of power side-channel leakage in analog IMC crossbars using the SKY130 PDK, including robustness across process corners and noise conditions.
-
-We further show that:
-- The attack remains viable down to a signal-to-noise ratio (SNR) of 3.0 dB  
-- Passive dummy-column countermeasures are ineffective due to NMOS nonlinearity  
-- The vulnerability persists across all SKY130 process corners (TT, FF, SS, SF, FS)  
-- The leakage behavior scales to larger arrays (validated on 8×8)  
-- Secret model weights can be extracted using power measurements alone  
-
-These findings challenge the prevailing assumption of inherent security in analog AI hardware, highlighting an urgent need for dedicated side-channel-aware design methodologies in next-generation IMC-based edge accelerators.
+**Authors:** Tanay Das, Udisha Singh  
+**Affiliation:** IIT Gandhinagar, AMD India  
+**License:** Apache 2.0  
 
 ---
 
-## Key Results
+## 📌 Overview
+
+This project demonstrates a **power side-channel vulnerability** in **analog in-memory computing (IMC) crossbar arrays**, challenging the common assumption that analog systems are inherently secure.
+
+Using **SkyWater SKY130 PDK** and **Ngspice**, we show that:
+
+> The total supply current (**I_DD**) is strongly correlated with the **Hamming weight of the input vector**, enabling **input inference attacks**.
+
+---
+
+## 🚀 Key Contributions
+
+- 🔍 **Side-Channel Attack Demonstration**  
+  - Pearson correlation: **ρ ≈ 0.9979**
+
+- 🔊 **Noise Robustness Analysis**  
+  - Effective down to **SNR = 3 dB**
+
+- 🛡 **Countermeasure Evaluation**  
+  - Passive techniques → **0% effectiveness**
+
+- ⚙️ **Process Corner Validation**  
+  - Works across **TT, FF, SS, SF, FS**
+
+- 📈 **Scalability Study**  
+  - 8×8 array leakage persists
+
+- 🧠 **Model Extraction Attack**  
+  - Weights inferred from current
+
+- 🧱 **Layout (KLayout)**  
+  - DRC-clean GDSII
+
+- 🔌 **Post-Layout Validation**  
+  - Leakage persists with parasitics
+
+---
+
+## 🧠 Concept
+
+For binary inputs:
+
+I_DD ∝ Σ active rows (Σ conductance)
+
+➡️ Directly maps to **Hamming weight**
+
+---
+
+## 🛠️ Tools & Technologies
+
+- SKY130 PDK  
+- Ngspice  
+- KLayout  
+- Python (NumPy, SciPy, Matplotlib)
+
+---
+
+## 📂 Project Structure
+
+```
+.
+├── IMC_SideChannel_VLSI2026_v3.ipynb
+├── environment.yml
+├── spice/
+├── layout/
+├── results/
+└── README.md
+```
+
+---
+
+## ⚙️ Setup (Colab)
+
+1. Run initialization cell (runtime restarts)  
+2. Install environment using `environment.yml`  
+3. Run all cells  
+
+---
+
+## ⚠️ Key Insight
+
+Analog IMC is **not inherently secure**.
+
+Leakage arises from:
+- NMOS saturation region behavior  
+- Current dependence on gate voltage  
+
+➡️ Passive balancing fails  
+➡️ Requires active mitigation  
+
+---
+
+## 📊 Results Summary
 
 | Metric | Value |
 |------|------|
-| **PDK** | SkyWater SKY130 130 nm (real foundry model) |
-| **Simulator** | Ngspice 42 |
-| **Side-channel correlation (4×4, TT)** | ρ = 0.9979 |
-| **p-value** | 5.27 × 10⁻¹⁸ |
-| **Attack viability (minimum SNR)** | 3.0 dB |
-| **Passive countermeasure effectiveness** | 0% |
-| **Corner invariance (TT/FF/SS/SF/FS)** | Δρ ≈ 0.0001 |
-| **8×8 array correlation** | ρ = 0.9976 |
+| Correlation | 0.9979 |
+| Noise Limit | 3 dB |
+| Countermeasure | 0% |
+| 8×8 Correlation | 0.9976 |
 
 ---
 
-## Key Takeaways
+## 📎 Citation
 
-- Analog IMC is **not inherently side-channel secure**
-- Power leakage directly reveals **input Hamming weight**
-- Traditional passive defenses are **ineffective**
-- Vulnerability is **robust across noise, process variation, and scaling**
-- Both **inputs and weights are at risk**
+Tanay Das, Udisha Singh  
+"Power Side-Channel Vulnerability Analysis of Analog IMC Arrays"  
+IEEE VLSI 2026  
 
 ---
 
-## Keywords
+## 📬 Contact
 
-Analog In-Memory Computing, Side-Channel Attack, Power Analysis, Crossbar Arrays, SKY130, Ngspice, Hardware Security, Edge AI
+taanayd@gmail.com
